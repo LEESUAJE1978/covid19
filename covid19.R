@@ -45,8 +45,8 @@ patient_sex <- patient_info %>% select(3, 13, 19, 20, 21)
 #2.2 결측 치 확인
 sum(is.na(patient_sex)) #7792patient_sex$incubation
 colSums(is.na(patient_sex)) #컬럼별 결측치 확인, sex:77, contate_number:2745, incubation:2909, cure:2061
-#결측치 처리 방법, 성별 데이터 누락은 제거, 나머지 컬럼의 NA는 0으로 대체
 
+#결측치 처리 방법, 성별 데이터 누락은 제거, 나머지 컬럼의 NA는 0으로 대체
 patient_sex <- patient_sex %>% filter(!is.na(sex))
 sum(is.na(patient_sex$sex))
 patient_sex$contact_number[is.na(patient_sex$contact_number)] <-0
@@ -111,28 +111,27 @@ p1 <- patient_route %>% filter(patient_id =="1000000125")
 if(!require(ggmap)){
   devtools::install_github("dkahle/ggmap", force = T);require(ggmap)}
 
-register_google(key = 'AIzaSyBtWySLrkGxKB-cKBb4ZnPhKvoyBdobTC8')#구글 맵 API 연동
+register_google(key = '')#구글 맵 API 연동
 map <- get_map(location = "서울", zoom = 11, maptype = 'roadmap')
-geocode("서울",output ="latlon", source ='google')
 ggmap(map)+geom_point(data=patient_route,
                           aes(x=longitude,
                               y=latitude),
                           alpha=0.3,
                           color="red")
+
 #3.4. 슈퍼 전파자 경로 시각화 ####
-
 map_s <- get_map(location = c(lon = 127.058, lat =37.63), zoom = 11, maptype = 'hybrid')
-
-
 ggmap(map_s)+geom_point(data=p1,
                       aes(x=longitude,
                           y=latitude),
                       alpha=0.7,
                       color="red")
 
+#3.5. 코드 추출하는 법 ####
+geocode("서울",output ="latlon", source ='google')
+
 
 #https://m.blog.naver.com/PostView.nhn?blogId=lool2389&logNo=220822220516&proxyReferer=https:%2F%2Fwww.google.com%2F
-
 
 
 #4. 시계열 데이터 EDA시간의 흐름에 따른 데이터의 변화를 파악####
